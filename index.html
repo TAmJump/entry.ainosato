@@ -169,7 +169,7 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
 
 <!-- NAV -->
 <nav class="nav"><div class="nav-inner">
-  <a href="#" class="nav-logo">タムジ.Corp</a>
+  <a href="https://tamjump.github.io/TAmj/index.html" class="nav-logo">タムジ.Corp</a>
   <ul class="nav-links">
     <li><a href="#executor">事業主体</a></li>
     <li><a href="#area">エリア</a></li>
@@ -523,8 +523,19 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
   <div class="footer-cp">© 2026 タムジ.Corp All Rights Reserved.</div>
 </footer>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 document.addEventListener('DOMContentLoaded',function(){
+  /* ── EmailJS Init ── */
+  /* ※ 下記3つのIDをEmailJS管理画面で取得した値に置き換えてください */
+  var EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+  var EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
+  var EMAILJS_TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+  if(typeof emailjs!=='undefined' && EMAILJS_PUBLIC_KEY!=='YOUR_EMAILJS_PUBLIC_KEY'){
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }
+
   /* ENTRY COUNTER */
   var COUNTER={unei:0,seko:0};
   var ce=document.getElementById('cntUnei');if(ce)ce.textContent=COUNTER.unei||'—';
@@ -576,6 +587,25 @@ document.addEventListener('DOMContentLoaded',function(){
     var m=document.getElementById('successModal');if(m)m.style.display='block';
     var lk=document.getElementById('photoLock');if(lk)lk.classList.add('unlocked');
     if(m)m.scrollIntoView({behavior:'smooth',block:'center'});
+
+    /* ── 確認メール送信 ── */
+    var userEmail=document.getElementById('fEmail').value.trim();
+    var userName=document.getElementById('fName').value.trim();
+    var userCompany=document.getElementById('fCompany').value.trim();
+    if(typeof emailjs!=='undefined' && EMAILJS_PUBLIC_KEY!=='YOUR_EMAILJS_PUBLIC_KEY' && userEmail){
+      emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+        to_email: userEmail,
+        to_name: userName,
+        company: userCompany,
+        doc_id: 'HC2026',
+        doc_pw: 'tamj-hokkaido',
+        dm_url: 'https://tamjump.github.io/entry.ainosato/dm_full.html'
+      }).then(function(){
+        console.log('確認メール送信完了:',userEmail);
+      },function(err){
+        console.error('メール送信エラー:',err);
+      });
+    }
   }
 
   /* PHOTO SCROLL */
