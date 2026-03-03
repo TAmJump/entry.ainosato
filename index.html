@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道 介護・医療拠点開発プロジェクト | タムジ.Corp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#B8924A;--gold-light:#D4AF61;--gold-pale:#F9F5EC;--white:#fff;--black:#111;--g9:#1a1a1a;--g7:#444;--g6:#666;--g5:#888;--g4:#999;--g3:#ccc;--g2:#e0e0e0;--g1:#f5f5f5;--jp:'Noto Sans JP',sans-serif;--en:'Cormorant Garamond','Inter',serif;--es:'Inter',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.8;}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--g2);}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{text-decoration:none;font-family:var(--jp);font-size:16px;font-weight:900;color:var(--black);letter-spacing:1px;}
+.nav-links{display:flex;gap:28px;list-style:none;align-items:center;}
+.nav-links a{font-size:13px;font-weight:500;color:var(--g6);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{background:var(--black)!important;color:var(--white)!important;padding:8px 20px!important;border-radius:2px;font-weight:600!important;}
+.nav-cta:hover{background:var(--g7)!important;}
+
+/* HERO */
+.hero{padding:140px 40px 60px;max-width:1080px;margin:0 auto;}
+.badge{display:inline-flex;border:1px solid var(--gold);border-radius:2px;padding:6px 16px;margin-bottom:32px;background:var(--gold-pale);}
+.badge span{font-family:var(--es);font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;text-transform:uppercase;}
+.hero-ey{font-family:var(--en);font-size:14px;font-weight:500;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-bottom:28px;}
+.hero-t{font-size:44px;font-weight:900;color:var(--black);line-height:1.7;margin-bottom:20px;letter-spacing:1px;}
+.hero-t .a{color:var(--gold);}
+.hero-sub{font-size:16px;color:var(--g6);line-height:2.2;margin-bottom:48px;max-width:680px;}
+.hero-sub strong{color:var(--black);font-weight:700;}
+.hero-nums{display:flex;gap:48px;padding:32px 0;border-top:1px solid var(--g2);border-bottom:1px solid var(--g2);margin-bottom:40px;}
+.hn-item{}
+.hn-val{font-family:var(--en);font-size:42px;font-weight:700;color:var(--black);line-height:1.2;}
+.hn-val .u{font-family:var(--jp);font-size:14px;font-weight:500;color:var(--g5);margin-left:2px;}
+.hn-label{font-size:12px;color:var(--g5);margin-top:6px;}
+
+/* PHOTO GALLERY */
+.photo-sec{position:relative;}
+.photo-lock{position:absolute;top:0;left:0;right:0;bottom:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(245,245,245,0.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:2px;cursor:default;}
+.photo-lock-icon{font-size:32px;color:var(--g3);margin-bottom:12px;}
+.photo-lock-t{font-size:14px;font-weight:700;color:var(--g6);margin-bottom:4px;}
+.photo-lock-sub{font-size:12px;color:var(--g4);}
+.photo-lock.unlocked{display:none;}
+.photo-wrap{position:relative;max-width:1080px;margin:0 auto;}
+.photo-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;display:flex;gap:0;cursor:grab;scrollbar-width:none;}
+.photo-scroll:active{cursor:grabbing;}
+.photo-scroll::-webkit-scrollbar{display:none;}
+.photo-slide{flex:0 0 100%;scroll-snap-align:start;position:relative;border:1px solid var(--g2);border-radius:2px;overflow:hidden;display:flex;flex-direction:column;}
+.photo-slide .img-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:var(--g1);max-height:360px;overflow:hidden;}
+.photo-slide img{width:100%;height:auto;display:block;max-height:360px;object-fit:contain;}
+.photo-slide .cap{padding:10px 20px;background:var(--g1);font-size:12px;color:var(--g6);letter-spacing:0.5px;border-top:1px solid var(--g2);}
+.photo-arrow{position:absolute;top:50%;transform:translateY(calc(-50% - 16px));width:40px;height:40px;background:rgba(255,255,255,0.85);border:1px solid var(--g2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:16px;color:var(--g6);transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,0.08);}
+.photo-arrow:hover{background:var(--white);color:var(--black);box-shadow:0 2px 12px rgba(0,0,0,0.15);}
+.photo-arrow.left{left:12px;}
+.photo-arrow.right{right:12px;}
+.photo-counter{text-align:center;padding:10px 0 0;font-family:var(--es);font-size:12px;color:var(--g5);}
+.area-cap{font-size:12px;color:var(--g4);text-align:right;}
+
+/* SEC */
+.sec{padding:80px 40px;max-width:1080px;margin:0 auto;}
+.sec-b{border-top:1px solid var(--g2);}
+.sec-l{font-family:var(--en);font-size:13px;font-weight:600;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;}
+.sec-t{font-size:28px;font-weight:900;color:var(--black);line-height:1.6;margin-bottom:16px;}
+.sec-d{font-size:14px;color:var(--g6);line-height:2.2;max-width:640px;margin-bottom:48px;}
+
+/* EXECUTOR BLOCK */
+.exec-block{display:grid;grid-template-columns:3fr 2fr;gap:48px;margin-bottom:48px;align-items:start;}
+.exec-text{font-size:15px;color:var(--g7);line-height:2.6;}
+.exec-text strong{color:var(--black);font-weight:700;}
+.exec-card{border:1px solid var(--gold);border-radius:2px;padding:36px 32px;background:var(--gold-pale);}
+.exec-card-l{font-family:var(--es);font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.exec-card-t{font-size:20px;font-weight:900;color:var(--black);margin-bottom:16px;}
+.exec-card-scope{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.exec-card-scope li{font-size:13px;color:var(--g7);padding-left:14px;position:relative;line-height:1.8;}
+.exec-card-scope li::before{content:'';position:absolute;left:0;top:10px;width:5px;height:5px;background:var(--gold);border-radius:50%;}
+
+/* AREA */
+.area-ctx{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:48px;}
+.area-txt{font-size:14px;color:var(--g7);line-height:2.4;}
+.area-txt strong{color:var(--black);font-weight:700;}
+.area-box{border:1px solid var(--gold);border-radius:2px;background:var(--gold-pale);padding:32px;display:flex;flex-direction:column;gap:20px;}
+.ab-l{font-family:var(--es);font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;margin-bottom:4px;}
+.ab-t{font-size:14px;font-weight:600;color:var(--black);line-height:1.8;}
+.area-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;}
+.af{border:1px solid var(--g2);border-radius:2px;padding:24px 20px;text-align:center;transition:border-color .3s;}
+.af:hover{border-color:var(--gold);}
+.af-v{font-family:var(--en);font-size:20px;font-weight:700;color:var(--black);margin-bottom:6px;}
+.af-l{font-size:12px;color:var(--g5);line-height:1.6;}
+.area-end{max-width:720px;padding:40px;border:1px solid var(--gold);border-radius:2px;background:linear-gradient(135deg,var(--gold-pale) 0%,var(--white) 100%);}
+.area-end p{font-size:15px;color:var(--g7);line-height:2.4;}
+.area-end strong{color:var(--black);font-weight:700;}
+
+/* PROJECTS */
+.pj-duo{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;}
+.pj-card{border:1px solid var(--g2);border-radius:2px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .3s,box-shadow .3s;display:flex;flex-direction:column;}
+.pj-card:hover{border-color:var(--gold);box-shadow:0 8px 32px rgba(184,146,74,.1);}
+.pj-body{padding:32px 28px;flex:1;display:flex;flex-direction:column;}
+.pj-l{font-family:var(--es);font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.pj-t{font-size:20px;font-weight:900;color:var(--black);margin-bottom:12px;line-height:1.6;}
+.pj-d{font-size:13px;color:var(--g6);line-height:2;margin-bottom:20px;flex:1;}
+.pj-data{display:flex;gap:24px;padding-top:16px;border-top:1px solid var(--g2);margin-bottom:20px;}
+.pj-n{}
+.pj-nv{font-family:var(--en);font-size:28px;font-weight:700;color:var(--black);line-height:1.2;}
+.pj-nv .u{font-family:var(--jp);font-size:12px;font-weight:500;color:var(--g5);}
+.pj-nl{font-size:11px;color:var(--g5);margin-top:2px;}
+.pj-note{font-size:12px;color:var(--g4);padding-top:12px;border-top:1px solid var(--g2);line-height:1.8;font-style:italic;}
+
+/* BENEFITS */
+.ben-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.ben-item{border:1px solid var(--g2);border-radius:2px;padding:28px;display:flex;gap:20px;align-items:flex-start;transition:border-color .3s;}
+.ben-item:hover{border-color:var(--gold);}
+.ben-num{font-family:var(--en);font-size:28px;font-weight:700;color:var(--gold);line-height:1;flex-shrink:0;width:36px;}
+.ben-h{font-size:15px;font-weight:700;color:var(--black);margin-bottom:6px;}
+.ben-p{font-size:13px;color:var(--g6);line-height:1.9;}
+
+/* SCHEME */
+.sc-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin-bottom:48px;}
+.sc-step{text-align:center;padding:24px 20px;border:1px solid var(--g2);border-radius:2px;min-width:160px;transition:border-color .3s;}
+.sc-step:hover{border-color:var(--gold);}
+.sc-step-n{font-family:var(--en);font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;margin-bottom:8px;}
+.sc-step-t{font-size:15px;font-weight:700;color:var(--black);margin-bottom:4px;}
+.sc-step-d{font-size:12px;color:var(--g5);line-height:1.6;}
+.sc-arr{font-size:20px;color:var(--gold);padding:0 8px;flex-shrink:0;}
+
+/* EXCLUSIVE */
+.excl{max-width:720px;margin:0 auto;padding:48px 40px;border:1px solid var(--g2);border-radius:2px;text-align:center;background:var(--g1);}
+.excl-t{font-size:18px;font-weight:900;color:var(--black);margin-bottom:16px;line-height:1.8;}
+.excl-p{font-size:14px;color:var(--g6);line-height:2.2;margin-bottom:8px;}
+.excl-note{font-size:12px;color:var(--g4);line-height:1.8;margin-top:16px;padding-top:16px;border-top:1px solid var(--g2);}
+
+/* ENTRY */
+.entry{padding:80px 40px;max-width:1080px;margin:0 auto;text-align:center;}
+.ef{max-width:540px;margin:0 auto;text-align:left;border:1px solid var(--g2);border-radius:2px;padding:44px;}
+.ef h3{font-size:17px;font-weight:700;color:var(--black);margin-bottom:4px;text-align:center;}
+.ef-note{font-size:12px;color:var(--g4);text-align:center;margin-bottom:32px;}
+.fg{margin-bottom:18px;}
+.fl{display:block;font-size:12px;font-weight:600;color:var(--black);margin-bottom:6px;}
+.fl .req{color:var(--gold);font-size:10px;margin-left:4px;}
+.fi{width:100%;background:var(--white);border:1px solid var(--g2);border-radius:2px;padding:12px 16px;font-size:14px;font-family:var(--jp);color:var(--black);outline:none;transition:border-color .2s;}
+.fi::placeholder{color:var(--g4);}.fi:focus{border-color:var(--gold);}
+.fs{width:100%;background:var(--white);border:1px solid var(--g2);border-radius:2px;padding:12px 16px;font-size:14px;font-family:var(--jp);color:var(--black);outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+.fs:focus{border-color:var(--gold);}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fb{width:100%;background:var(--black);color:var(--white);font-size:15px;font-weight:700;font-family:var(--jp);padding:16px;border:none;border-radius:2px;cursor:pointer;margin-top:8px;transition:background .2s;letter-spacing:1px;}
+.fb:hover{background:var(--g7);}
+.fp{font-size:11px;color:var(--g4);text-align:center;margin-top:14px;line-height:1.7;}
+
+.footer{border-top:1px solid var(--g2);padding:48px 40px;text-align:center;}
+.footer-c{font-size:14px;font-weight:700;color:var(--black);margin-bottom:8px;}
+.footer-i{font-size:12px;color:var(--g4);line-height:2;margin-bottom:16px;}
+.footer-i a{color:var(--gold);text-decoration:none;}
+.footer-cp{font-size:11px;color:var(--g4);}
+
+@keyframes fu{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.fi-a{opacity:0;animation:fu .6s ease forwards;}
+.d1{animation-delay:.1s;}.d2{animation-delay:.2s;}.d3{animation-delay:.3s;}.d4{animation-delay:.4s;}.d5{animation-delay:.5s;}
+
+@media(max-width:768px){
+  .nav-links{display:none;}.hero{padding:110px 24px 40px;}.hero-t{font-size:28px;}.hero-nums{flex-direction:column;gap:20px;}
+  .sec{padding:60px 24px;}.sec-t{font-size:22px;}.exec-block,.area-ctx,.pj-duo,.ben-grid{grid-template-columns:1fr;}
+  .sc-flow{flex-direction:column;gap:12px;}.sc-arr{transform:rotate(90deg);}
+  .fr{grid-template-columns:1fr;}.entry{padding:60px 24px;}.ef{padding:28px 20px;}
+  .photo-slide .cap{padding:8px 16px;font-size:11px;}.photo-slide .img-wrap{max-height:240px;}.photo-slide img{max-height:240px;}.photo-arrow{width:32px;height:32px;font-size:13px;}.area-facts{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav"><div class="nav-inner">
+  <a href="#" class="nav-logo">タムジ.Corp</a>
+  <ul class="nav-links">
+    <li><a href="#executor">事業主体</a></li>
+    <li><a href="#area">エリア</a></li>
+    <li><a href="#projects">開発計画</a></li>
+    <li><a href="#entry" class="nav-cta">エントリー</a></li>
+  </ul>
+</div></nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="badge fi-a"><span>Confidential — Invitation Only</span></div>
+  <div class="hero-ey fi-a d1">Hokkaido Care Development Project</div>
+  <h1 class="hero-t fi-a d2">北海道<br><span class="a">介護・医療拠点</span><br>開発プロジェクト</h1>
+  <p class="hero-sub fi-a d3">
+    本案件は、単なる施設開発でも、M&A仲介案件でもありません。<br><br>
+    <strong>土地取得・既存施設売却・新築開発</strong>——<br>
+    すべてを同時に進行する、実行型プロジェクトです。
+  </p>
+  <div class="hero-nums fi-a d4">
+    <div class="hn-item"><div class="hn-val">~120<span class="u">床</span></div><div class="hn-label">新築計画可能規模</div></div>
+    <div class="hn-item"><div class="hn-val">50<span class="u">床規模</span></div><div class="hn-label">既存施設（売却）</div></div>
+    <div class="hn-item"><div class="hn-val">1<span class="u">分</span></div><div class="hn-label">駅徒歩・ロータリー前</div></div>
+    <div class="hn-item"><div class="hn-val">300<span class="u">%</span></div><div class="hn-label">容積率</div></div>
+  </div>
+
+  <!-- ENTRY COUNTER -->
+  <div style="display:flex;gap:24px;justify-content:center;margin-top:16px;padding:16px 0;border-top:1px solid var(--g2);">
+    <div style="font-size:12px;color:var(--g5);letter-spacing:1px;">
+      エントリー状況：
+      <strong style="color:var(--gold);font-family:var(--en);" id="cntUnei">—</strong> <span style="font-size:11px;">運営会社</span>
+      ／
+      <strong style="color:var(--gold);font-family:var(--en);" id="cntSeko">—</strong> <span style="font-size:11px;">施工会社</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PHOTO GALLERY ═══ -->
+<section class="photo-sec" style="padding:0 40px 48px;max-width:1080px;margin:0 auto;">
+<div id="photoLock" class="photo-lock">
+  <div class="photo-lock-icon">&#128274;</div>
+  <div class="photo-lock-t">エリア写真（10枚）</div>
+  <div class="photo-lock-sub">エントリー後に閲覧いただけます</div>
+</div>
+<div class="photo-wrap">
+  <button class="photo-arrow left" id="photoLeft">&#8249;</button>
+  <button class="photo-arrow right" id="photoRight">&#8250;</button>
+  <div class="photo-scroll" id="photoScroll">
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_station_summer.png" alt="あいの里教育大駅 外観"></div>
+      <div class="cap">JR あいの里教育大駅 外観（学園都市線）</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_station.png" alt="あいの里教育大駅 ホーム"></div>
+      <div class="cap">JR あいの里教育大駅 ホーム — 札幌駅まで約25〜30分</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_areamap.png" alt="駅前周辺マップ"></div>
+      <div class="cap">駅前周辺マップ — COOP・東光ストア・ビバホーム・北海道医療大学病院</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_widemap.png" alt="あいの里エリア広域マップ"></div>
+      <div class="cap">あいの里エリア広域マップ — 北海道教育大学・温泉なごみ・南あいの里公園</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_map.png" alt="南あいの里エリア全体図"></div>
+      <div class="cap">南あいの里エリア全体図 — ウェスト・センター・イーストの3街区構成</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_towers.png" alt="南あいの里 住宅街"></div>
+      <div class="cap">南あいの里 住宅街 — 大規模マンション・戸建が立ち並ぶニュータウン</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_shopping.png" alt="駅前商業エリア"></div>
+      <div class="cap">駅前商業エリア — 商業施設・飲食・生活利便が徒歩圏に集積</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_university.png" alt="北海道教育大学 札幌校"></div>
+      <div class="cap">北海道教育大学 札幌校 — 学生利用で駅の人流が安定</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_hospital.png" alt="北海道医療大学病院"></div>
+      <div class="cap">北海道医療大学病院 — 医療連携・人材供給の動線</div>
+    </div>
+    <div class="photo-slide">
+      <div class="img-wrap"><img src="img_royce.png" alt="ロイズ本社工場"></div>
+      <div class="cap">ロイズ本社工場 — 地域を代表する企業。雇用と人流を生む</div>
+    </div>
+  </div>
+  <div class="photo-counter"><span id="photoIdx">1</span> / 10</div>
+</div>
+</section>
+
+<!-- ═══ EXECUTOR ═══ -->
+<section class="sec sec-b" id="executor">
+  <div class="sec-l">Project Owner</div>
+  <div class="sec-t">事業主体について</div>
+
+  <div class="exec-block">
+    <div class="exec-text">
+      私たちは、<strong>仲介会社でもコンサル会社でもありません。</strong><br><br>
+      医療・介護事業を自ら運営し、M&A・開発を実行してきた<strong>事業者</strong>です。<br><br>
+      本プロジェクトにおいては、土地取得から新築開発、既存施設の売却、運営会社のアテンド、施工会社の選定まで——<strong>プロジェクト全体を統括する実行主体</strong>として推進しています。<br><br>
+      紹介だけして終わる案件ではありません。<br>
+      <strong>実際に事業として動いている案件</strong>です。
+    </div>
+    <div class="exec-card">
+      <div class="exec-card-l">Project Owner</div>
+      <div class="exec-card-t">タムジ.Corp</div>
+      <ul class="exec-card-scope">
+        <li>土地取得・用地確保</li>
+        <li>新築開発の統括</li>
+        <li>既存施設の売却（事業譲渡）</li>
+        <li>運営会社のアテンド・選定</li>
+        <li>施工会社のアテンド・選定</li>
+        <li>投資スキームの構築</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AREA ANALYSIS ═══ -->
+<section class="sec sec-b" id="area">
+  <div class="sec-l">Area Analysis</div>
+  <div class="sec-t">あいの里エリアについて</div>
+
+  <div class="area-ctx">
+    <div class="area-txt">
+      本エリアは<strong>1980年代に札幌市が開発した大規模住宅ニュータウン</strong>です。
+      最初から「住宅地として設計された街」であり、JR学園都市線あいの里教育大駅は<strong>1986年に開業</strong>。
+      当時の入居世代は現在<strong>70〜80代に突入</strong>。
+      介護施設・医療・在宅サービスが圧倒的に不足している、<strong>典型的な超高齢化エリア</strong>です。<br><br>
+      派手さはない。しかし<strong>需要は堅い</strong>。<br>
+      <strong>本エリアは、今後20年以上、介護・医療需要が減少しない数少ないエリアです。</strong>
+    </div>
+    <div class="area-box">
+      <div><div class="ab-l">HISTORY</div><div class="ab-t">1986年 JR駅開業<br>計画的ニュータウンとして開発</div></div>
+      <div><div class="ab-l">POPULATION SHIFT</div><div class="ab-t">開発当初：子育て世代<br>現在：その世代が70〜80代に突入</div></div>
+      <div><div class="ab-l">DEMAND</div><div class="ab-t">介護施設・医療・在宅<br>全部足りない。典型的エリア。</div></div>
+      <div><div class="ab-l">RARITY</div><div class="ab-t">ニュータウン駅前は空かない<br>本案件は極めて異例の出物</div></div>
+    </div>
+  </div>
+
+  <div class="area-facts">
+    <div class="af"><div class="af-v">1986年</div><div class="af-l">JR駅 開業</div></div>
+    <div class="af"><div class="af-v">約40年</div><div class="af-l">開発からの経過年数</div></div>
+    <div class="af"><div class="af-v">70〜80代</div><div class="af-l">初期入居世代の現在</div></div>
+    <div class="af"><div class="af-v">300%</div><div class="af-l">駅前容積率（近隣商業）</div></div>
+  </div>
+
+  <div class="area-end">
+    <p>
+      <strong>なぜこの案件が強いのか。</strong><br><br>
+      ニュータウンの駅前は、通常まとまった開発用地が出ません。住宅地規制・土地分割済み・大地主不在が理由です。<br><br>
+      本案件は<strong>駅徒歩1分・ロータリー前・近隣商業地域・容積率300%</strong>。
+      既存施設と新築用地が同時に存在し、一体開発できる。<br><br>
+      <strong>この条件が揃うことは、今後もほぼありません。</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section class="sec sec-b" id="projects">
+  <div class="sec-l">Development Plans</div>
+  <div class="sec-t">開発計画</div>
+  <div class="sec-d">本プロジェクトは、新築開発と既存施設売却の2案件で構成されています。<br>詳細資料はエントリー後に個別にご案内いたします。</div>
+  <div class="pj-duo">
+    <!-- NEW -->
+    <div class="pj-card" style="cursor:default;">
+      <div style="height:200px;background:linear-gradient(135deg,#1a1a1a 0%,#333 100%);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;"><div style="font-family:var(--en);font-size:64px;font-weight:700;color:var(--gold);line-height:1;">01</div><div style="font-size:13px;color:var(--g3);margin-top:8px;letter-spacing:2px;">NEW CONSTRUCTION</div></div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-l">New Construction</div>
+        <div class="pj-t">新築<br>有料老人ホーム</div>
+        <div class="pj-d">駅ロータリー前。近隣商業地域・容積率300%。<br>住宅型・ホスピス型等、運営形態に応じて最小規模〜120床の計画が可能。</div>
+        <div class="pj-data">
+          <div class="pj-n"><div class="pj-nv">~120<span class="u">床</span></div><div class="pj-nl">計画可能規模</div></div>
+          <div class="pj-n"><div class="pj-nv">300<span class="u">%</span></div><div class="pj-nl">容積率</div></div>
+        </div>
+        <div class="pj-note">※ 図面・設計資料・土地情報等はNDA締結後に開示いたします。</div>
+      </div>
+    </div>
+    <!-- MA -->
+    <div class="pj-card" style="cursor:default;">
+      <div style="height:200px;background:linear-gradient(135deg,#2a2318 0%,#4a3c28 100%);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;"><div style="font-family:var(--en);font-size:64px;font-weight:700;color:var(--gold);line-height:1;">02</div><div style="font-size:13px;color:var(--g3);margin-top:8px;letter-spacing:2px;">EXISTING FACILITY</div></div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-l">Existing Facility — Sale</div>
+        <div class="pj-t">既存 サービス付き<br>高齢者向け住宅（売却）</div>
+        <div class="pj-d">駅徒歩1分の稼働中サ高住。<br>事業譲渡による売却案件。即収益可能。</div>
+        <div class="pj-data">
+          <div class="pj-n"><div class="pj-nv">50<span class="u">床規模</span></div><div class="pj-nl">居室数</div></div>
+          <div class="pj-n"><div class="pj-nv" style="font-size:22px;">稼働中</div><div class="pj-nl">即収益可能</div></div>
+        </div>
+        <div class="pj-note">※ 決算書・料金表・施設詳細等はNDA締結後に開示いたします。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS ═══ -->
+<section class="sec sec-b" id="benefits">
+  <div class="sec-l">Participation Benefits</div>
+  <div class="sec-t">本プロジェクト参画で得られるもの</div>
+  <div class="sec-d">利益だけではありません。しかし、利益も出ます。</div>
+  <div class="ben-grid">
+    <div class="ben-item"><div class="ben-num">01</div><div><div class="ben-h">北海道拠点の獲得</div><div class="ben-p">駅前ロータリーという圧倒的立地に、介護・医療のドミナント拠点を構築。札幌北部における中核ポジションを確保できます。</div></div></div>
+    <div class="ben-item"><div class="ben-num">02</div><div><div class="ben-h">実行案件への参画</div><div class="ben-p">机上の計画ではありません。土地・既存施設・設計図面が揃った、実際に動いている案件への参画です。</div></div></div>
+    <div class="ben-item"><div class="ben-num">03</div><div><div class="ben-h">医療ネットワーク</div><div class="ben-p">プロジェクトオーナーが持つ医療・介護事業のネットワークを活用。運営立ち上げ・連携体制の構築を支援します。</div></div></div>
+    <div class="ben-item"><div class="ben-num">04</div><div><div class="ben-h">海外展開の導線</div><div class="ben-p">海外投資家・医療関係者向けに、日本法人設立および長期滞在スキームの構築も進行中。参画企業には優先的にご案内可能です。</div></div></div>
+    <div class="ben-item"><div class="ben-num">05</div><div><div class="ben-h">北海道横展開</div><div class="ben-p">本案件は北海道第1号モデルです。今後の開発案件は、本プロジェクト参画企業を優先してご案内します。</div></div></div>
+  </div>
+</section>
+
+<!-- ═══ SCHEME ═══ -->
+<section class="sec sec-b" id="scheme">
+  <div class="sec-l">Project Scheme</div>
+  <div class="sec-t">開発スキーム</div>
+  <div class="sec-d">4フェーズで進行します。</div>
+  <div class="sc-flow">
+    <div class="sc-step"><div class="sc-step-n">PHASE 01</div><div class="sc-step-t">土地取得</div><div class="sc-step-d">駅前用地の確保</div></div>
+    <div class="sc-arr">→</div>
+    <div class="sc-step"><div class="sc-step-n">PHASE 02</div><div class="sc-step-t">新築開発</div><div class="sc-step-d">最大120床</div></div>
+    <div class="sc-arr">→</div>
+    <div class="sc-step"><div class="sc-step-n">PHASE 03</div><div class="sc-step-t">既存売却</div><div class="sc-step-d">サ高住50床規模の事業譲渡</div></div>
+    <div class="sc-arr">→</div>
+    <div class="sc-step"><div class="sc-step-n">PHASE 04</div><div class="sc-step-t">運営統合</div><div class="sc-step-d">拠点化・ドミナント</div></div>
+  </div>
+</section>
+
+<!-- ═══ EXCLUSIVE ═══ -->
+<section class="sec sec-b">
+  <div class="excl">
+    <div class="excl-t">本プロジェクトは<br>実行できる企業とのみ、協働を行います。</div>
+    <div class="excl-p">
+      単なる紹介案件ではありません。<br>
+      事業として、実際に運営・開発を実行できるパートナーを募集しています。
+    </div>
+    <div class="excl-note">
+      ※ 仲介会社・ブローカー・情報転売目的でのエントリーはお断りしております。<br>
+      ※ 本案件は、運営会社および施工会社（元請）を対象としたクローズド案件です。
+    </div>
+    <div style="margin-top:24px;font-size:14px;font-weight:600;color:var(--black);line-height:2;">
+      本案件は事業として成立しているため、先着順ではありません。<br>
+      条件が合う企業とのみ、協議を行います。
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ENTRY ═══ -->
+<section class="entry sec-b" id="entry">
+  <div class="sec-l">Entry</div>
+  <div class="sec-t">プロジェクト参画 エントリー</div>
+  <p style="font-size:14px;color:var(--g6);margin-bottom:12px;">エントリー企業様にのみ、図面・決算・価格等の<strong style="color:var(--black);">非公開資料</strong>を開示いたします。</p>
+  <p style="font-size:12px;color:var(--g4);margin-bottom:40px;">※ 対象：運営会社 ／ 施工会社（元請）のみ</p>
+  <div class="ef">
+    <h3>プロジェクト参画申込</h3>
+    <p class="ef-note">※ 現段階で書類提出は不要です</p>
+    <div class="fg"><label class="fl">会社名 <span class="req">必須</span></label><input type="text" class="fi" id="fCompany" name="company" placeholder="株式会社○○○"></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">ご担当者名 <span class="req">必須</span></label><input type="text" class="fi" id="fName" name="name" placeholder="山田 太郎"></div>
+      <div class="fg"><label class="fl">役職</label><input type="text" class="fi" id="fTitle" name="title" placeholder="代表取締役 / 部長 等"></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label class="fl">メールアドレス <span class="req">必須</span></label><input type="email" class="fi" id="fEmail" name="email" placeholder="info@example.com"></div>
+      <div class="fg"><label class="fl">電話番号 <span class="req">必須</span></label><input type="tel" class="fi" id="fTel" name="tel" placeholder="011-000-0000"></div>
+    </div>
+    <div class="fg"><label class="fl">お立場 <span class="req">必須</span></label>
+      <select class="fs" id="fPosition" name="position">
+        <option value="">選択してください</option>
+        <option>運営会社（介護・医療施設の運営法人）</option>
+        <option>施工会社（元請・設計施工）</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">ご関心のある案件（複数選択可）</label>
+      <div style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:6px;">
+        <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="chkUneishi" style="accent-color:var(--gold);"> 新築（運営参画）</label>
+        <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="chkSekou" style="accent-color:var(--gold);"> 新築（施工）</label>
+        <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="checkbox" id="chkKizon" style="accent-color:var(--gold);"> 既存施設の取得</label>
+      </div>
+
+      <!-- サブ質問：運営参画 -->
+      <div id="subUneishi" style="display:none;margin-top:12px;padding:16px 20px;background:var(--g1);border:1px solid var(--g2);border-radius:2px;">
+        <div style="font-size:12px;font-weight:600;color:var(--g6);margin-bottom:8px;">▶ 運営参画のお立場を教えてください</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="uneishiType" value="運営元" style="accent-color:var(--gold);"> 運営元（自社で運営）</label>
+          <label style="font-size:13px;color:#c0392b;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="uneishiType" value="仲介" style="accent-color:#c0392b;"> 仲介</label>
+        </div>
+        <div id="ngUneishi" style="display:none;margin-top:8px;font-size:12px;color:#c0392b;font-weight:600;">※ 仲介目的でのエントリーはお受けしておりません。</div>
+      </div>
+
+      <!-- サブ質問：施工 -->
+      <div id="subSekou" style="display:none;margin-top:12px;padding:16px 20px;background:var(--g1);border:1px solid var(--g2);border-radius:2px;">
+        <div style="font-size:12px;font-weight:600;color:var(--g6);margin-bottom:8px;">▶ 運営会社（パートナー）の有無</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="sekouType" value="あり" style="accent-color:var(--gold);"> 運営会社あり（同行可能）</label>
+          <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="sekouType" value="なし" style="accent-color:var(--gold);"> 運営会社なし（施工のみ）</label>
+        </div>
+      </div>
+
+      <!-- サブ質問：既存施設 -->
+      <div id="subKizon" style="display:none;margin-top:12px;padding:16px 20px;background:var(--g1);border:1px solid var(--g2);border-radius:2px;">
+        <div style="font-size:12px;font-weight:600;color:var(--g6);margin-bottom:8px;">▶ 既存施設取得のお立場を教えてください</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <label style="font-size:13px;color:var(--black);display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="kizonType" value="運営・買収元" style="accent-color:var(--gold);"> 運営・買収元（自社で取得）</label>
+          <label style="font-size:13px;color:#c0392b;display:flex;align-items:center;gap:4px;cursor:pointer;"><input type="radio" name="kizonType" value="仲介" style="accent-color:#c0392b;"> 仲介</label>
+        </div>
+        <div id="ngKizon" style="display:none;margin-top:8px;font-size:12px;color:#c0392b;font-weight:600;">※ 仲介目的でのエントリーはお受けしておりません。</div>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">事業実績（簡易で構いません）</label><textarea class="fi" id="fRecord" name="record" rows="3" placeholder="運営施設数、施工実績、対応エリア等" style="resize:vertical;"></textarea></div>
+    <div class="fg"><label class="fl">備考（任意）</label><textarea class="fi" id="fNote" name="note" rows="2" placeholder="ご質問・ご要望があれば" style="resize:vertical;"></textarea></div>
+    <button class="fb" id="submitBtn">エントリーする</button>
+    <p class="fp">送信いただいた情報は、本プロジェクトに関するご連絡以外の目的には使用いたしません。<br>※ 仲介・ブローカー目的のエントリーはお断りしております。</p>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successModal" style="display:none;margin-top:32px;">
+    <div style="border:2px solid var(--gold);border-radius:2px;padding:40px;background:var(--gold-pale);text-align:center;">
+      <div style="font-size:28px;margin-bottom:12px;">&#10003;</div>
+      <div style="font-size:18px;font-weight:900;color:var(--black);margin-bottom:8px;">エントリーを受け付けました</div>
+      <div style="font-size:13px;color:var(--g6);margin-bottom:28px;line-height:2;">
+        ご入力いただいたメールアドレス宛に、確認メールをお送りします。<br>
+        下記の資料閲覧用ID・パスワードをお控えください。
+      </div>
+      <div style="background:var(--white);border:1px solid var(--g2);border-radius:2px;padding:24px;max-width:360px;margin:0 auto 20px;text-align:left;">
+        <div style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;margin-bottom:16px;">CREDENTIALS</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:13px;color:var(--g5);">ID</span>
+          <code style="font-size:16px;font-weight:700;color:var(--black);background:var(--g1);padding:6px 16px;border-radius:2px;letter-spacing:2px;">HC2026</code>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:13px;color:var(--g5);">Password</span>
+          <code style="font-size:16px;font-weight:700;color:var(--black);background:var(--g1);padding:6px 16px;border-radius:2px;letter-spacing:1px;">tamj-hokkaido</code>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--g5);line-height:2;">
+        ※ このID・パスワードは機密資料閲覧用です。第三者への共有は固くお断りいたします。<br>
+        ※ 面談・NDA締結後に、図面・決算書等の詳細資料を開示いたします。
+      </div>
+      <a href="dm_full.html" style="display:inline-block;margin-top:20px;padding:14px 32px;background:var(--gold);color:var(--white);font-size:14px;font-weight:700;text-decoration:none;border-radius:2px;letter-spacing:1px;">資料を閲覧する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-c">北海道 介護・医療拠点開発プロジェクト</div>
+  <div class="footer-i">Project Owner：タムジ.Corp<br>お問い合わせ：<a href="https://tamjump.github.io/TAmj/contact.html" target="_blank"><span class="__cf_email__" data-cfemail="b7ded9d1d8f7c3d6daddc2dac799d4d8da">[email&#160;protected]</span></a></div>
+  <div class="footer-cp">© 2026 タムジ.Corp All Rights Reserved.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* ENTRY COUNTER */
+  var COUNTER={unei:0,seko:0};
+  var ce=document.getElementById('cntUnei');if(ce)ce.textContent=COUNTER.unei||'—';
+  var cs=document.getElementById('cntSeko');if(cs)cs.textContent=COUNTER.seko||'—';
+
+  /* CHECKBOX SUB-QUESTIONS */
+  var chkU=document.getElementById('chkUneishi');
+  var chkS=document.getElementById('chkSekou');
+  var chkK=document.getElementById('chkKizon');
+  var subU=document.getElementById('subUneishi');
+  var subS=document.getElementById('subSekou');
+  var subK=document.getElementById('subKizon');
+  if(chkU)chkU.addEventListener('change',function(){subU.style.display=this.checked?'block':'none';});
+  if(chkS)chkS.addEventListener('change',function(){subS.style.display=this.checked?'block':'none';});
+  if(chkK)chkK.addEventListener('change',function(){subK.style.display=this.checked?'block':'none';});
+
+  document.querySelectorAll('input[name="uneishiType"]').forEach(function(r){
+    r.addEventListener('change',function(){document.getElementById('ngUneishi').style.display=this.value==='仲介'?'block':'none';});
+  });
+  document.querySelectorAll('input[name="kizonType"]').forEach(function(r){
+    r.addEventListener('change',function(){document.getElementById('ngKizon').style.display=this.value==='仲介'?'block':'none';});
+  });
+
+  /* FORM SUBMIT */
+  var btn=document.getElementById('submitBtn');
+  if(btn)btn.addEventListener('click',function(){
+    var company=document.getElementById('fCompany').value.trim();
+    var name=document.getElementById('fName').value.trim();
+    var email=document.getElementById('fEmail').value.trim();
+    var tel=document.getElementById('fTel').value.trim();
+    var position=document.getElementById('fPosition').value;
+    if(!company||!name||!email||!tel||!position){alert('必須項目をすべて入力してください。');return;}
+    var uR=document.querySelector('input[name="uneishiType"]:checked');
+    var kR=document.querySelector('input[name="kizonType"]:checked');
+    if((uR&&uR.value==='仲介')||(kR&&kR.value==='仲介')){alert('仲介目的でのエントリーはお受けしておりません。');return;}
+    var t=this;t.textContent='送信中...';t.style.pointerEvents='none';
+    var interests=[];
+    if(chkU&&chkU.checked){interests.push('新築(運営)'+(uR?' ['+uR.value+']':''));}
+    if(chkS&&chkS.checked){var sR=document.querySelector('input[name="sekouType"]:checked');interests.push('新築(施工)'+(sR?' [運営会社:'+sR.value+']':''));}
+    if(chkK&&chkK.checked){interests.push('既存取得'+(kR?' ['+kR.value+']':''));}
+    var fd={company:company,name:name,email:email,tel:tel,position:position,interests:interests.join('/'),record:document.getElementById('fRecord').value,note:document.getElementById('fNote').value,_subject:'【エントリー】'+company};
+    var FSID='YOUR_FORMSPREE_ID';
+    if(FSID==='YOUR_FORMSPREE_ID'){console.log('Entry:',fd);setTimeout(function(){showOK();},1000);}
+    else{fetch('https://formspree.io/f/'+FSID,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(fd)}).then(function(r){if(r.ok)showOK();else{t.textContent='エラー';t.style.pointerEvents='auto';}}).catch(function(){t.textContent='通信エラー';t.style.pointerEvents='auto';});}
+  });
+
+  function showOK(){
+    var ef=document.querySelector('.ef');if(ef)ef.style.display='none';
+    var m=document.getElementById('successModal');if(m)m.style.display='block';
+    var lk=document.getElementById('photoLock');if(lk)lk.classList.add('unlocked');
+    if(m)m.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+
+  /* PHOTO SCROLL */
+  var ps=document.getElementById('photoScroll');
+  var leftBtn=document.getElementById('photoLeft');
+  var rightBtn=document.getElementById('photoRight');
+  var counter=document.getElementById('photoIdx');
+  var total=ps?ps.querySelectorAll('.photo-slide').length:0;
+  function getIdx(){return Math.round(ps.scrollLeft/ps.clientWidth);}
+  function goTo(i){ps.scrollTo({left:ps.clientWidth*i,behavior:'smooth'});}
+  function update(){if(counter)counter.textContent=getIdx()+1;}
+  if(ps){
+    leftBtn.addEventListener('click',function(){var i=getIdx();if(i>0)goTo(i-1);else goTo(total-1);});
+    rightBtn.addEventListener('click',function(){var i=getIdx();if(i<total-1)goTo(i+1);else goTo(0);});
+    ps.addEventListener('scroll',update);
+  }
+});
+</script>
+</body>
+</html>
