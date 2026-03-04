@@ -914,7 +914,7 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
 <div class="cta-bar">
   <div class="cta-bar-t">本案件に関するお問い合わせ</div>
   <div class="cta-bar-p">ご関心をお持ちいただけましたら、下記までご連絡ください。</div>
-  <a href="https://tamjump.github.io/TAmj/contact.html" target="_blank"><span class="__cf_email__" data-cfemail="cba2a5ada48bbfaaa6a1bea6bbe5a8a4a6">[email&#160;protected]</span></a>
+  <a href="https://tamjump.github.io/TAmj/contact.html" target="_blank">info@tamjump.com</a>
 </div>
 
 <!-- LEGAL -->
@@ -934,7 +934,7 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-c">北海道 介護・医療拠点開発プロジェクト</div>
-  <div class="footer-i">Project Owner：タムジ.Corp<br><a href="https://tamjump.github.io/TAmj/contact.html" target="_blank"><span class="__cf_email__" data-cfemail="640d0a020b241005090e1109144a070b09">[email&#160;protected]</span></a></div>
+  <div class="footer-i">Project Owner：タムジ.Corp<br><a href="https://tamjump.github.io/TAmj/contact.html" target="_blank">info@tamjump.com</a></div>
   <div class="footer-cp">&copy; 2026 タムジ.Corp All Rights Reserved.</div>
 </footer>
 
@@ -949,17 +949,33 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
     <input id="companyInput" type="text" placeholder="会社名（例：株式会社○○○）" style="width:100%;border:1px solid #e0e0e0;border-radius:2px;padding:14px 16px;font-size:15px;font-family:'Noto Sans JP',sans-serif;outline:none;margin-bottom:16px;text-align:center;">
     <div id="authError" style="font-size:12px;color:#c0392b;margin-bottom:12px;display:none;"></div>
     <button id="authBtn" style="width:100%;background:#B8924A;color:#fff;font-size:15px;font-weight:700;font-family:'Noto Sans JP',sans-serif;padding:16px;border:none;border-radius:2px;cursor:pointer;letter-spacing:1px;">資料を表示する</button>
-    <div style="font-size:11px;color:#999;margin-top:20px;line-height:1.8;">ID・パスワードが不明な場合は<br><a href="https://tamjump.github.io/TAmj/contact.html" target="_blank"><span class="__cf_email__" data-cfemail="355c5b535a754154585f4058451b565a58">[email&#160;protected]</span></a> までお問い合わせください。</div>
+    <div style="font-size:11px;color:#999;margin-top:20px;line-height:1.8;">ID・パスワードが不明な場合は<br><a href="https://tamjump.github.io/TAmj/contact.html" target="_blank">info@tamjump.com</a> までお問い合わせください。</div>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function(){
   var ID_HASH='4ecdaf28b7eb09c58c2e1d10568a53781872fa7c9c25820ea2883918e94d7050';
   var PW_HASH='1632611cd18de206b41eeaf95941b551e7d05ae1093ab70ce5b97ee2bab811e0';
-  async function sha256(str){var buf=new TextEncoder().encode(str);var hash=await crypto.subtle.digest('SHA-256',buf);return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');}
+  async function sha256(str){
+    try{
+      var buf=new TextEncoder().encode(str);
+      var hash=await crypto.subtle.digest('SHA-256',buf);
+      return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    }catch(e){
+      /* fallback: simple hash for non-HTTPS environments */
+      var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h)+str.charCodeAt(i);h|=0;}
+      return 'fallback_'+h;
+    }
+  }
+  /* pre-compute fallback hashes */
+  var FB_ID=null,FB_PW=null;
+  (async function(){
+    FB_ID=await sha256('HC2026');
+    FB_PW=await sha256('tamj-hokkaido');
+  })();
   var idInp=document.getElementById('idInput'),pwInp=document.getElementById('pwInput'),comp=document.getElementById('companyInput'),btn=document.getElementById('authBtn'),err=document.getElementById('authError');
-  async function submit(){var id=idInp.value.trim(),pw=pwInp.value,name=comp.value.trim();err.style.display='none';idInp.style.borderColor='#e0e0e0';pwInp.style.borderColor='#e0e0e0';comp.style.borderColor='#e0e0e0';if(!id){err.textContent='IDを入力してください';err.style.display='block';idInp.style.borderColor='#c0392b';idInp.focus();return;}if(!pw){err.textContent='パスワードを入力してください';err.style.display='block';pwInp.style.borderColor='#c0392b';pwInp.focus();return;}if(!name){err.textContent='会社名を入力してください';err.style.display='block';comp.style.borderColor='#c0392b';comp.focus();return;}var idH=await sha256(id),pwH=await sha256(pw);if(idH!==ID_HASH||pwH!==PW_HASH){err.textContent='IDまたはパスワードが正しくありません';err.style.display='block';idInp.style.borderColor='#c0392b';pwInp.style.borderColor='#c0392b';pwInp.value='';pwInp.focus();return;}document.getElementById('recipientName').textContent=name+' 御中';for(var i=1;i<=40;i++){var el=document.getElementById('wm'+String(i).padStart(2,'0'));if(el)el.textContent=name;}document.getElementById('overlay').style.display='none';}
+  async function submit(){var id=idInp.value.trim(),pw=pwInp.value,name=comp.value.trim();err.style.display='none';idInp.style.borderColor='#e0e0e0';pwInp.style.borderColor='#e0e0e0';comp.style.borderColor='#e0e0e0';if(!id){err.textContent='IDを入力してください';err.style.display='block';idInp.style.borderColor='#c0392b';idInp.focus();return;}if(!pw){err.textContent='パスワードを入力してください';err.style.display='block';pwInp.style.borderColor='#c0392b';pwInp.focus();return;}if(!name){err.textContent='会社名を入力してください';err.style.display='block';comp.style.borderColor='#c0392b';comp.focus();return;}var idH=await sha256(id),pwH=await sha256(pw);var correctId=(idH===ID_HASH)||(FB_ID&&idH===FB_ID);var correctPw=(pwH===PW_HASH)||(FB_PW&&pwH===FB_PW);if(!correctId||!correctPw){err.textContent='IDまたはパスワードが正しくありません';err.style.display='block';idInp.style.borderColor='#c0392b';pwInp.style.borderColor='#c0392b';pwInp.value='';pwInp.focus();return;}document.getElementById('recipientName').textContent=name+' 御中';for(var i=1;i<=40;i++){var el=document.getElementById('wm'+String(i).padStart(2,'0'));if(el)el.textContent=name;}document.getElementById('overlay').style.display='none';}
   btn.addEventListener('click',submit);idInp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();pwInp.focus();}});pwInp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();comp.focus();}});comp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submit();}});document.addEventListener('contextmenu',function(e){e.preventDefault();});
 
   /* TAB HIGHLIGHT ON SCROLL */
