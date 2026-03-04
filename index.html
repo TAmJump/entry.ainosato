@@ -175,7 +175,7 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
     <li><a href="#area">エリア</a></li>
     <li><a href="#projects">開発計画</a></li>
     <li><a href="#entry" class="nav-cta">エントリー</a></li>
-    <li><a href="#entry" onclick="setTimeout(function(){switchTab('login')},100)" class="nav-cta" style="background:var(--gold)!important;">ログイン</a></li>
+    <li><a href="dm_full.html" class="nav-cta" style="background:var(--gold)!important;">ログイン</a></li>
   </ul>
 </div></nav>
 
@@ -428,25 +428,7 @@ body{font-family:var(--jp);color:var(--black);background:var(--white);-webkit-fo
   <p style="font-size:14px;color:var(--g6);margin-bottom:12px;">エントリー企業様にのみ、図面・決算・価格等の<strong style="color:var(--black);">非公開資料</strong>を開示いたします。</p>
   <p style="font-size:12px;color:var(--g4);margin-bottom:40px;">※ 対象：運営会社 ／ 施工会社（元請）のみ</p>
 
-  <!-- TAB SWITCH -->
-  <div style="display:flex;justify-content:center;gap:0;margin-bottom:0;max-width:540px;margin:0 auto;">
-    <button id="tabEntry" onclick="switchTab('entry')" style="flex:1;padding:14px 0;font-size:14px;font-weight:700;font-family:var(--jp);cursor:pointer;border:1px solid var(--g2);border-bottom:none;border-radius:2px 0 0 0;background:var(--black);color:var(--white);transition:all .2s;">新規エントリー</button>
-    <button id="tabLogin" onclick="switchTab('login')" style="flex:1;padding:14px 0;font-size:14px;font-weight:700;font-family:var(--jp);cursor:pointer;border:1px solid var(--g2);border-bottom:none;border-radius:0 2px 0 0;background:var(--white);color:var(--g6);transition:all .2s;">ログイン（資料閲覧）</button>
-  </div>
-
-  <!-- LOGIN PANEL -->
-  <div id="loginPanel" style="display:none;max-width:540px;margin:0 auto;border:1px solid var(--g2);border-top:none;border-radius:0 0 2px 2px;padding:44px;text-align:center;background:var(--white);">
-    <div style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:2px;margin-bottom:16px;">DOCUMENT ACCESS</div>
-    <div style="font-size:17px;font-weight:700;color:var(--black);margin-bottom:8px;">資料閲覧ログイン</div>
-    <p style="font-size:12px;color:var(--g4);margin-bottom:28px;line-height:1.8;">エントリー時にお伝えしたID・パスワードを入力してください。</p>
-    <input type="text" id="loginId" class="fi" placeholder="ID" style="margin-bottom:12px;text-align:center;">
-    <input type="password" id="loginPw" class="fi" placeholder="パスワード" style="margin-bottom:16px;text-align:center;">
-    <div id="loginError" style="font-size:12px;color:#c0392b;margin-bottom:12px;display:none;"></div>
-    <button class="fb" id="loginBtn" style="margin-top:0;">資料を閲覧する →</button>
-    <p style="font-size:11px;color:var(--g4);margin-top:16px;line-height:1.8;">ID・パスワードをお持ちでない方は「新規エントリー」タブからお申込みください。</p>
-  </div>
-
-  <div class="ef" id="entryPanel" style="border-radius:0 0 2px 2px;border-top:none;">
+  <div class="ef">
     <h3>プロジェクト参画申込</h3>
     <p class="ef-note">※ 現段階で書類提出は不要です</p>
     <div class="fg"><label class="fl">会社名 <span class="req">必須</span></label><input type="text" class="fi" id="fCompany" name="company" placeholder="株式会社○○○"></div>
@@ -595,51 +577,6 @@ document.addEventListener('DOMContentLoaded',function(){
     var m=document.getElementById('successModal');if(m)m.style.display='block';
     var lk=document.getElementById('photoLock');if(lk)lk.classList.add('unlocked');
     if(m)m.scrollIntoView({behavior:'smooth',block:'center'});
-  }
-
-  /* TAB SWITCH */
-  window.switchTab=function(tab){
-    var entryPanel=document.getElementById('entryPanel');
-    var loginPanel=document.getElementById('loginPanel');
-    var tabEntry=document.getElementById('tabEntry');
-    var tabLogin=document.getElementById('tabLogin');
-    var successModal=document.getElementById('successModal');
-    if(tab==='login'){
-      entryPanel.style.display='none';
-      if(successModal)successModal.style.display='none';
-      loginPanel.style.display='block';
-      tabLogin.style.background='var(--black)';tabLogin.style.color='var(--white)';
-      tabEntry.style.background='var(--white)';tabEntry.style.color='var(--g6)';
-    }else{
-      loginPanel.style.display='none';
-      entryPanel.style.display='block';
-      tabEntry.style.background='var(--black)';tabEntry.style.color='var(--white)';
-      tabLogin.style.background='var(--white)';tabLogin.style.color='var(--g6)';
-    }
-  };
-
-  /* LOGIN */
-  var loginBtn=document.getElementById('loginBtn');
-  var loginId=document.getElementById('loginId');
-  var loginPw=document.getElementById('loginPw');
-  var loginErr=document.getElementById('loginError');
-  if(loginBtn){
-    async function sha256(str){var buf=new TextEncoder().encode(str);var hash=await crypto.subtle.digest('SHA-256',buf);return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');}
-    var ID_HASH='4ecdaf28b7eb09c58c2e1d10568a53781872fa7c9c25820ea2883918e94d7050';
-    var PW_HASH='1632611cd18de206b41eeaf95941b551e7d05ae1093ab70ce5b97ee2bab811e0';
-    async function doLogin(){
-      var id=loginId.value.trim(),pw=loginPw.value;
-      loginErr.style.display='none';
-      loginId.style.borderColor='#e0e0e0';loginPw.style.borderColor='#e0e0e0';
-      if(!id){loginErr.textContent='IDを入力してください';loginErr.style.display='block';loginId.style.borderColor='#c0392b';loginId.focus();return;}
-      if(!pw){loginErr.textContent='パスワードを入力してください';loginErr.style.display='block';loginPw.style.borderColor='#c0392b';loginPw.focus();return;}
-      var idH=await sha256(id),pwH=await sha256(pw);
-      if(idH!==ID_HASH||pwH!==PW_HASH){loginErr.textContent='IDまたはパスワードが正しくありません';loginErr.style.display='block';loginId.style.borderColor='#c0392b';loginPw.style.borderColor='#c0392b';loginPw.value='';loginPw.focus();return;}
-      window.location.href='dm_full.html';
-    }
-    loginBtn.addEventListener('click',doLogin);
-    loginId.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();loginPw.focus();}});
-    loginPw.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();doLogin();}});
   }
 
   /* PHOTO SCROLL */
